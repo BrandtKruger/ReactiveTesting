@@ -2,7 +2,8 @@ package com.kruger.reactivetesting;
 
 import com.kruger.reactivetesting.model.Transaction;
 import com.kruger.reactivetesting.repository.TransactionRepository;
-import org.junit.jupiter.api.Test;
+import io.r2dbc.spi.ConnectionFactory;
+import org.junit.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -23,19 +24,16 @@ public class TestTransactionRecord {
 
     @Mock
     private TransactionRepository transactionRepository;
-    @Autowired
-    DatabaseClient database;
 
     @Test
     public void testTransactionRecord(){
 
         Flux<Transaction> savedRecord = Flux.just(new Transaction((long) 15, 1144, 0, "123456",
-                "876543", "POS3", "John", "54300000021156", "234", "1221")).flatMap( r -> this.database.insert().into(Transaction.class));
+                "876543", "POS3", "John", "54300000021156", "234", "1221")).flatMap( r -> this.transactionRepository.save(r));
 
-        Flux<Transaction> transactionRecordsFromDB = this. reactiveMongoTemplate
-                .dropCollection(Transaction.class)
+        Flux<Transaction> transactionRecordsFromDB = this.transactionRepository.deleteAll()
                 .thenMany(savedRecord)
-                .thenMany(this.reactiveMongoTemplate.findAll(Transaction.class));
+                .thenMany(this.transactionRepository.findAll());
 
 
         Predicate<Transaction> tx = new Predicate<Transaction>() {

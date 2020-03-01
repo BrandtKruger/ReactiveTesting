@@ -2,70 +2,72 @@ package com.kruger.reactivetesting.controller;
 
 import com.kruger.reactivetesting.model.Transaction;
 import com.kruger.reactivetesting.repository.TransactionRepository;
-import io.r2dbc.spi.ConnectionFactory;
+import com.kruger.reactivetesting.service.TransactionServiceImpl;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.reactivestreams.Publisher;
-import org.springframework.data.r2dbc.core.DatabaseClient;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.net.URI;
-import java.util.concurrent.Flow;
 
-@RestController
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@RestController
+@RequestMapping("/transaction")
 public class TransactionController {
 
-    private final TransactionRepository transactionRepository;
-    private final DatabaseClient databaseClient;
-    private final ConnectionFactory connectionFactory;
+    private TransactionServiceImpl transactionService;
+    private TransactionRepository transactionRepository;
 
-    public TransactionController(TransactionRepository transactionRepository, DatabaseClient databaseClient, ConnectionFactory connectionFactory) {
-        this.transactionRepository = transactionRepository;
-        this.databaseClient = databaseClient;
-        this.connectionFactory = connectionFactory;
-    }
-
-    @GetMapping("/")
+    @GetMapping("/all")
     Publisher<Transaction> findAll(){
-        return this.transactionRepository.findAll();
+        return this.transactionService.getAllTransactions();
     }
-    @GetMapping("/cardNumber")
+
+    @GetMapping("/{transactionId}" )
+    public Mono<ResponseEntity<Transaction>> getById(@PathVariable("transactionId") Long transactionId){
+        return transactionService.getTransactionById(transactionId)
+                .map(transaction -> ResponseEntity.ok(transaction))
+                .defaultIfEmpty(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/{cardNumber}")
     Publisher<Transaction> getByCardNumber(@PathVariable("cardNumber") String cardNumber){
-        return this.transactionRepository.getTransactionsByCardNumber(cardNumber);
+        return this.transactionService.getTransactionsByCardNumber(cardNumber);
     }
 
     @GetMapping("/{merchantId}")
     Publisher<Transaction> getByMerchantId(@PathVariable("merchantId") String merchantId){
-        return this.transactionRepository.getTransactionByMerchantId(merchantId);
+        return this.transactionService.getTransactionByMerchantId(merchantId);
     }
 
     @GetMapping("/{terminalId}")
     Publisher<Transaction> getByTerminalId(@PathVariable("terminalId") String terminalId){
-        return this.transactionRepository.getTransactionByTerminalId(terminalId);
+        return this.transactionService.getTransactionByTerminalId(terminalId);
     }
 
     @GetMapping("/{posId}/{operatorId}")
     Publisher<Transaction> getByPosIdAndOperatorId(@PathVariable("posId") String posId,
                                                    @PathVariable("operatorId") String operatorId){
-        return this.transactionRepository.getTransactionByPosIdAndOperatorId(posId, operatorId);
+        return this.transactionService.getTransactionByPosIdAndOperatorId(posId, operatorId);
     }
 
     @PostMapping
     Publisher<ResponseEntity<Transaction>> create(@RequestBody Transaction transaction){
-        return this.transactionRepository
+        return this.transactionService
                 .save(transaction)
                 .map( tr -> ResponseEntity.created(URI.create("/transactions/" + tr.getTransactionId())).
                         contentType(MediaType.APPLICATION_JSON)
                         .build());
     }
 
-    @DeleteMapping("/delete/{transactionId}")
-    Publisher<Transaction> deleteByTransactionId(@PathVariable("transactionId") Long transactionId){
-        return this.transactionRepository.deleteById(transactionId);
-    }
+//    @DeleteMapping("/delete/{transactionId}")
+//    Publisher<Transaction> deleteByTransactionId(@PathVariable("transactionId") Long transactionId){
+//        return this.transactionRepository.deleteById(transactionId);
+//    }
 }

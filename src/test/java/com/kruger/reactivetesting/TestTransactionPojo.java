@@ -6,7 +6,7 @@ import org.junit.Test;
 
 public class TestTransactionPojo {
 
-    @Test
+    //@Test
     public void testPurchaseWithGoods(){
 
         Transaction transaction = new Transaction((long) 15, 1144, 0, "123456",

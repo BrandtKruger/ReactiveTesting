@@ -2,7 +2,6 @@ package com.kruger.reactivetesting.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 
 import javax.persistence.GeneratedValue;
@@ -12,7 +11,6 @@ import javax.persistence.Table;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
 @Table(name = "transaction")
 @Entity
 public class Transaction {

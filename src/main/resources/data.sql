@@ -1,0 +1,2 @@
+INSERT INTO TRANSACTION (amount, amountOther, merchantId, terminalId, posId, operatorId, cardNumber, cvv, cardExpDate )
+VALUES (2345, 0, '123456', '432153', 'POS1', '1', '4034214567865432', '213', '1221');

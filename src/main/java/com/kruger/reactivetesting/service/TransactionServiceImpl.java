@@ -29,22 +29,22 @@ public class TransactionServiceImpl implements iTransactionService, Serializable
 
     @Override
     public Flux<Transaction> getTransactionsByCardNumber(String cardNumber) {
-        return transactionRepository.getTransactionsByCardNumber(cardNumber);
+        return transactionRepository.findTransactionsByCardNumber(cardNumber);
     }
 
     @Override
     public Flux<Transaction> getTransactionByMerchantId(String merchantId) {
-        return transactionRepository.getTransactionByMerchantId(merchantId);
+        return transactionRepository.findTransactionByMerchantId(merchantId);
     }
 
     @Override
     public Flux<Transaction> getTransactionByTerminalId(String terminalId) {
-        return transactionRepository.getTransactionByTerminalId(terminalId);
+        return transactionRepository.findTransactionByTerminalId(terminalId);
     }
 
     @Override
     public Flux<Transaction> getTransactionByPosIdAndOperatorId(String posId, String operatorId) {
-        return transactionRepository.getTransactionByPosIdAndOperatorId(posId, operatorId);
+        return transactionRepository.findTransactionByPosIdAndOperatorId(posId, operatorId);
     }
 
     public Mono<Transaction> save(Transaction transaction){

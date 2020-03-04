@@ -1,4 +1,6 @@
-CREATE TABLE TRANSACTION(
+CREATE DATABASE myDatabase;
+
+CREATE TABLE transaction(
   transactionId INT AUTO_INCREMENT PRIMARY KEY,
   amount INT,
   amountOther INT,

@@ -8,10 +8,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.r2dbc.core.DatabaseClient;
-import org.springframework.data.r2dbc.repository.config.EnableR2dbcRepositories;
 import org.springframework.test.context.junit4.SpringRunner;
 import reactor.core.publisher.Flux;
 import reactor.test.StepVerifier;
@@ -19,7 +16,6 @@ import reactor.test.StepVerifier;
 import java.util.function.Predicate;
 
 @RunWith(SpringRunner.class)
-@EnableR2dbcRepositories
 @ExtendWith(MockitoExtension.class)
 public class TestTransactionRecord {
 

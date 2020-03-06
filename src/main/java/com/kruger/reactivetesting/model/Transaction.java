@@ -1,4 +1,5 @@
 package com.kruger.reactivetesting.model;
+import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.springframework.data.annotation.Id;
@@ -7,6 +8,8 @@ import org.springframework.data.relational.core.mapping.Table;
 @Table("transaction")
 @EqualsAndHashCode
 @ToString
+@Data
+
 public class Transaction {
 
     @Id

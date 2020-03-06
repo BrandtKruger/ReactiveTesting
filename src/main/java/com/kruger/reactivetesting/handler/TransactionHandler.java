@@ -8,10 +8,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
+
+import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.web.reactive.function.BodyInserters.fromObject;
-import static org.springframework.web.reactive.function.server.ServerResponse.notFound;
-import static org.springframework.web.reactive.function.server.ServerResponse.ok;
+import static org.springframework.web.reactive.function.server.ServerResponse.*;
 import static reactor.core.publisher.Mono.from;
 
 @Component
@@ -24,8 +25,10 @@ public class TransactionHandler {
     }
 
     public Mono<ServerResponse> createTransaction(ServerRequest request) {
-        Mono<Transaction> txMono = request.bodyToMono(Transaction.class).flatMap(transaction -> transactionService.save(transaction));
-        return ServerResponse.ok().contentType(APPLICATION_JSON).body(txMono, Transaction.class);
+        return request.bodyToMono(Transaction.class)
+                .flatMap(u -> status(CREATED)
+                        .contentType(APPLICATION_JSON)
+                        .body(transactionService.save(u), Transaction.class));
     }
 
     public Mono<ServerResponse> findAll(ServerRequest request) {

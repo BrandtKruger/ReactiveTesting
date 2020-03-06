@@ -2,12 +2,8 @@ package com.kruger.reactivetesting;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.data.r2dbc.repository.config.EnableR2dbcRepositories;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication
-//@EnableTransactionManagement
-//@EnableR2dbcRepositories(basePackages = "com.kruger.reactivetesting.repository")
 public class ReactiveTestingApplication {
 
 	public static void main(String[] args) {

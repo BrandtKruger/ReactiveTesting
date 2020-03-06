@@ -1,36 +1,23 @@
 package com.kruger.reactivetesting.model;
-
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.springframework.data.annotation.Id;
-import javax.persistence.*;
+import org.springframework.data.relational.core.mapping.Table;
 
-@Data
-@AllArgsConstructor
-@Table(name = "transaction")
-@Entity
+@Table("transaction")
+@EqualsAndHashCode
+@ToString
 public class Transaction {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "transactionId")
-    private Long transactionId;
-    @Column(name = "amount")
+    private Long transactionid;
     private long amount;
-    @Column(name = "amountOther")
-    private long amountOther;
-    @Column(name = "merchantId")
-    private String merchantId;
-    @Column(name = "terminalId")
-    private String terminalId;
-    @Column(name = "posId")
-    private String posId;
-    @Column(name = "operatorId")
-    private String operatorId;
-    @Column(name = "cardNumber")
-    private String cardNumber;
-    @Column(name = "cvv")
+    private long amountother;
+    private String merchantid;
+    private String terminalid;
+    private String posid;
+    private String operatorid;
+    private String cardnumber;
     private String cvv;
-    @Column(name = "cardExpDate")
-    private String cardExpDate;
+    private String cardexpdate;
 }

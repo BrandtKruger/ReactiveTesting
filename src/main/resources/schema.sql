@@ -1,7 +1,5 @@
-CREATE DATABASE myDatabase;
-
 CREATE TABLE transaction(
-  transactionId INT AUTO_INCREMENT PRIMARY KEY,
+  transactionId SERIAL PRIMARY KEY,
   amount INT,
   amountOther INT,
   merchantId VARCHAR(20) NOT NULL,
